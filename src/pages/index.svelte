@@ -16,8 +16,8 @@
     const addToDo = () => {
         if (text && text.length > 0) {
             zdToast("TODO added successfully", 1);
-            let id =
-                datas && datas.length > 0 ? datas[datas.length - 1].id + 1 : 1;
+            let id = datas && datas.length > 0 ? datas.length + 1 : 1;
+
             datas.unshift({ text, id, bg: currentcolor, status: "PENDING" });
             datas = datas;
             text = "";
@@ -64,32 +64,35 @@
     </main>
     <div class="container row d-flex">
         {#each status as statu}
-            <div class="sub-container">
-                <h1 class="d-flex justify-content-center">
-                    {statu}
-                </h1>
-                <div class="card-container">
-                    {#if datas && datas.length > 0}
-                        {#each datas as data (data.id)}
-                            {#if data.status == statu}
-                                <div
-                                    class=" d-flex col card space-between"
-                                    style="background-color:{data.bg};"
-                                    in:fly={{ y: -100 }}
-                                    out:fly={{ y: +100 }}
-                                >
-                                    <p>
-                                        {data.text}
-                                    </p>
-                                    <div class="d-flex row-reverse card-btns">
+            {@const statusDatas = datas.filter((data) => data.status == statu)}
+            {#if statusDatas && statusDatas.length > 0}
+                <div class="sub-container">
+                    <h1 class="d-flex justify-content-center">
+                        {statu}
+                    </h1>
+                    <div class="card-container">
+                        {#each statusDatas as data (data.id)}
+                            <div
+                                class=" d-flex col card space-between"
+                                style="background-color:{data.bg};"
+                                in:fly={{ y: -100 }}
+                                out:fly={{ y: +100 }}
+                            >
+                                <p>
+                                    {data.text}
+                                </p>
+                                <div class="d-flex row-reverse card-btns">
+                                    {#if statu != "DELETED"}
                                         <button
                                             class="delete-btn"
                                             on:click={() => {
                                                 changeToDo(data.id, "DELETED");
                                             }}
                                         >
-                                            DELETED
+                                            DELETE
                                         </button>
+                                    {/if}
+                                    {#if statu != "DONE"}
                                         <button
                                             class="done-btn"
                                             on:click={() => {
@@ -98,6 +101,8 @@
                                         >
                                             DONE
                                         </button>
+                                    {/if}
+                                    {#if statu != "PENDING"}
                                         <button
                                             class="pending-btn"
                                             on:click={() => {
@@ -106,13 +111,13 @@
                                         >
                                             PENDING
                                         </button>
-                                    </div>
+                                    {/if}
                                 </div>
-                            {/if}
+                            </div>
                         {/each}
-                    {/if}
+                    </div>
                 </div>
-            </div>
+            {/if}
         {/each}
     </div>
 </div>

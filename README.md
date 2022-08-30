@@ -1,6 +1,5 @@
 # Project
-GNOME-looking website template created with Svelte, DaisyUI and TailwindCSS, as router, Routify.
-In `components` you can find some customised DaisyUI based web components such as `button` and `input`
+Todo application created with Svelte. All datas written in local storage. Pending, Done and Deleted status are added. Deleted button doesnt remove anything from local storage. Just changes its' status to deleted and move it to Deleted section.
 
 ## Scripts
 
